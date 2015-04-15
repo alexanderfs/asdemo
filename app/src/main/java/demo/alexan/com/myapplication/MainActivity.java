@@ -42,4 +42,8 @@ public class MainActivity extends ActionBarActivity {
         i = 3;
         return i;
     }
+    
+    public void test() {
+        int i;
+    }
 }
