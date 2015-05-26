@@ -1,9 +1,12 @@
 package demo.alexan.com.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +15,55 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button b = (Button) findViewById(R.id.btn_test_pinnedlist);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, PinnedSectionListActivity.class);
+                startActivity(i);
+            }
+        });
+        
+        b = (Button) findViewById(R.id.btn_test_customviewgroup);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, AlexViewGroupActivity.class);
+                startActivity(i);
+            }
+        });
+        
+        b = (Button) findViewById(R.id.btn_test_slide_listitem);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SlideCutActivity.class));
+            }
+        });
+        
+        b = (Button) findViewById((R.id.btn_test_scroll));
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ScrollActivity.class));
+            }
+        });
+
+        b = (Button) findViewById((R.id.btn_test_slide_menu));
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SlideMenuActivity.class));
+            }
+        });
+
+        b = (Button) findViewById((R.id.btn_test_refresh_item));
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RefreshItemActivity.class));
+            }
+        });
     }
 
 
@@ -37,13 +89,4 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int test1() {
-        int i;
-        i = 3;
-        return i;
-    }
-
-    public void test() {
-        int i;
-    }
 }

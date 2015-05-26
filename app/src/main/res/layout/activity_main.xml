@@ -1,11 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_alignParentBottom="true"/>
+
+        <Button
+            android:id="@+id/btn_test_pinnedlist"
+            style="@style/alexStyle"
+            android:text="test pinned list"/>
+        <Button
+            android:id="@+id/btn_test_customviewgroup"
+            android:text="text custom view group"
+            style="@style/alexStyle"/>
+
+        <Button
+            android:id="@+id/btn_test_slide_listitem"
+            android:text="test slide listitem"
+            style="@style/alexStyle"/>
+
+        <Button
+            android:id="@+id/btn_test_scroll"
+            android:text="test scroll"
+            style="@style/alexStyle"/>
+        
+        <Button
+            android:id="@+id/btn_test_slide_menu"
+            android:text="test slide menu"
+            style="@style/alexStyle"/>
+
+        <Button
+            android:id="@+id/btn_test_refresh_item"
+            android:text="refresh list item"
+            style="@style/alexStyle"/>
+
+    </LinearLayout>
+
+</ScrollView>
