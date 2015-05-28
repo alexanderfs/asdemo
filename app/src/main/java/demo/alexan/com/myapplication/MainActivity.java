@@ -64,6 +64,14 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, RefreshItemActivity.class));
             }
         });
+        
+        b = (Button) findViewById(R.id.btn_dynamic_ball_list);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, DynamicListActivity.class));
+            }
+        });
     }
 
 

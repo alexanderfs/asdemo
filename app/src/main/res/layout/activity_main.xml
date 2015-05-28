@@ -45,6 +45,11 @@
             android:id="@+id/btn_test_refresh_item"
             android:text="refresh list item"
             style="@style/alexStyle"/>
+        
+        <Button
+            android:id="@+id/btn_dynamic_ball_list"
+            android:text="dynamic ball list"
+            style="@style/alexStyle"/>
 
     </LinearLayout>
 
