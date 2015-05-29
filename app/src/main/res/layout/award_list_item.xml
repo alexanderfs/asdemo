@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:alex="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="#F3F3F3"
     android:paddingBottom="20dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/award_basic_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dip"
-        android:paddingRight="4dip"
+        android:orientation="horizontal"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:background="#FFFFFF">
         <ImageView
             android:id="@+id/lottery_icon"
-            android:layout_width="55dp"
+            android:layout_width="80dp"
             android:layout_height="55dp"
-            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_launcher"/>
 
-        <LinearLayout
-            android:layout_toRightOf="@id/lottery_icon"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/lottery_basic_info"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dip"
-            android:orientation="vertical"
-            android:layout_centerInParent="true">
+            android:layout_gravity="center_vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
@@ -56,22 +59,21 @@
             </LinearLayout>
             
             <LinearLayout
+                android:layout_below="@id/line1"
                 android:id="@+id/award_lucky_num_stub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                
             </LinearLayout>
         
-        </LinearLayout>
+        </RelativeLayout>
         <ImageView android:id="@+id/right_arraw_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_arrow_right"
             android:paddingRight="8dip"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
@@ -129,6 +131,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:src="@drawable/dotline"
         />
         <TextView
             android:id="@+id/current_award_jackpot"
@@ -138,10 +141,12 @@
             android:text="当前奖池: --元"
             android:textSize="15sp"
             android:textColor="#A9A685"/>
-        <ImageView
+        <demo.alexan.com.view.DottedLineView
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:src="#CFCFCF"/>
+            android:layout_height="2px"
+            alex:my_color="#0000FF"
+            android:layerType="software"
+            />
        
     </LinearLayout>
     

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <declare-styleable name="dotted_line_view">
+        <attr name="line_color" format="color"></attr>
+        <attr name="my_color" format="color"></attr>
+    </declare-styleable>
+    </resources>

@@ -58,7 +58,8 @@ public class DynamicListActivity extends Activity {
     
     class MyAdapter extends BaseAdapter {
         private Context mCtx;
-        private int width;
+        private int maxBallSize;
+        private int llWidth;
         
         MyAdapter(Context ctx) {
             this.mCtx = ctx;
@@ -66,27 +67,16 @@ public class DynamicListActivity extends Activity {
         }
         
         private void init() {
-            DisplayMetrics dm = new DisplayMetrics();
-            dm = mCtx.getResources().getDisplayMetrics();
+            DisplayMetrics dm = mCtx.getResources().getDisplayMetrics();
             int scrrenWidth = dm.widthPixels;
+            maxBallSize = (int)(30 * dm.density + 0.5);
             
             View measureView = LayoutInflater.from(mCtx).inflate(R.layout.award_list_item, null);
             int size = View.MeasureSpec.makeMeasureSpec(scrrenWidth, View.MeasureSpec.EXACTLY);
             measureView.measure(size, size);
-            int totalWidth = measureView.getMeasuredWidth();
-            
-            RelativeLayout rl = (RelativeLayout) measureView.findViewById(R.id.award_basic_info);
-            int rlWidth = rl.getMeasuredWidth();
-            
-            ImageView iv = (ImageView) measureView.findViewById(R.id.lottery_icon);
-            int ivWidth = iv.getMeasuredWidth();
-            
-            ImageView iv2 = (ImageView) measureView.findViewById(R.id.right_arraw_img);
-            int iv2Width = iv2.getMeasuredWidth();
-            
-            //LinearLayout ll = (LinearLayout) measureView.findViewById(R.id.award_lucky_num_stub);
-            //ll.measure(View.MeasureSpec.AT_MOST, View.MeasureSpec.AT_MOST);
-            width = measureView.getMeasuredWidth() - iv.getMeasuredHeight() - iv2.getMeasuredWidth();
+
+            RelativeLayout ll = (RelativeLayout) measureView.findViewById(R.id.lottery_basic_info);
+            llWidth = ll.getMeasuredWidth();
         }
 
         @Override
@@ -112,13 +102,22 @@ public class DynamicListActivity extends Activity {
                 vh = new ViewHolder();
                 vh.iv = (ImageView)convertView.findViewById(R.id.lottery_icon);
                 vh.layout = (LinearLayout)convertView.findViewById(R.id.award_lucky_num_stub);
+                vh.content = (RelativeLayout)convertView.findViewById(R.id.lottery_basic_info);
+                //margin不算在控件尺寸范围内，而padding算。所以这里布局都改成了用padding。
+                //todo:但是还有个问题就是使用原有的尺寸会导致宽度不够。还不知道是什么问题。这里原来用的linearlayout，有这个问题
+                //todo:换成relative后就又没问题了。android sdk真是神奇呀！
+                //LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(llWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+                //vh.content.setLayoutParams(ll);
                 convertView.setTag(vh);
             } else {
                 vh = (ViewHolder) convertView.getTag();
             }
             vh.layout.removeAllViews();
             int balls = listData.get(position).ballCount;
-            int itemSize = width / balls;
+            int itemSize = llWidth / balls;
+            if(itemSize > maxBallSize) {
+                itemSize = maxBallSize;
+            }
             Random rm = new Random();
             for(int i = 0; i < balls; i++) {
                 ImageView itemIv = new ImageView(mCtx);
@@ -138,6 +137,7 @@ public class DynamicListActivity extends Activity {
     static class ViewHolder {
         ImageView iv;
         LinearLayout layout;
+        RelativeLayout content;
     }
     
     class DataItem {
