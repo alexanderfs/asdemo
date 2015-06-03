@@ -31,4 +31,5 @@ proguard/
 
 # Log Files
 *.log
+*.patch
 
