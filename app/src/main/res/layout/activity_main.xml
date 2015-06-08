@@ -50,6 +50,16 @@
             android:id="@+id/btn_dynamic_ball_list"
             android:text="dynamic ball list"
             style="@style/alexStyle"/>
+        
+        <Button
+            android:id="@+id/btn_cascade_scroll"
+            android:text="cascade scroll"
+            style="@style/alexStyle"/>
+
+        <Button
+            android:id="@+id/btn_extend_cascade_scroll"
+            android:text="extend cascade scroll"
+            style="@style/alexStyle"/>
 
     </LinearLayout>
 

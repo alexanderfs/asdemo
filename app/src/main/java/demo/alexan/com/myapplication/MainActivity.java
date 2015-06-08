@@ -72,6 +72,20 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, DynamicListActivity.class));
             }
         });
+        
+        ((Button)findViewById(R.id.btn_cascade_scroll)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CascadeScrollActivity.class));
+            }
+        });
+        
+        findViewById(R.id.btn_extend_cascade_scroll).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ExtendCascadeScrollActivity.class));
+            }
+        });
     }
 
 

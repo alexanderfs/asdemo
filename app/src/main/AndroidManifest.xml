@@ -33,6 +33,10 @@
             android:label="my app" />
         <activity android:name=".DynamicListActivity"
             android:label="my app" />
+        <activity android:name=".CascadeScrollActivity"
+            android:label="my app" />
+        <activity android:name=".ExtendCascadeScrollActivity"
+            android:label="my app" />
     </application>
 
 </manifest>
