@@ -108,6 +108,7 @@ public class DynamicListActivity extends Activity {
                 //todo:换成relative后就又没问题了。android sdk真是神奇呀！
                 //LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(llWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
                 //vh.content.setLayoutParams(ll);
+                
                 convertView.setTag(vh);
             } else {
                 vh = (ViewHolder) convertView.getTag();

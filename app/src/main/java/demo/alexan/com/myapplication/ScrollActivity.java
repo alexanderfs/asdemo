@@ -67,7 +67,9 @@ public class ScrollActivity extends Activity implements View.OnClickListener{
                 tv.scrollBy(0, 20);
                 break;
             case R.id.scroll_down:
-                tv.scrollBy(0, -20);
+                preT -= 20;
+                tv.scrollTo(preL, preT);
+                //tv.scrollBy(0, -20);
                 break;
         }
     }

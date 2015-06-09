@@ -9,7 +9,7 @@ import demo.alexan.com.utils.CascadeScrollListener;
 /**
  * Created by Alex on 2015/6/8.
  */
-public class CascadeScrollView extends ScrollView {
+public class CascadeScrollView extends HVScrollView {
     
     private CascadeScrollListener scrollListener = null;
     
@@ -21,9 +21,9 @@ public class CascadeScrollView extends ScrollView {
         super(context, attrs);
     }
 
-    public CascadeScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    /*public CascadeScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
+    }*/
 
     public void setScrollListener(CascadeScrollListener scrollListener) {
         this.scrollListener = scrollListener;

@@ -121,14 +121,14 @@ public class SlideCutListView extends ListView {
     private void scrollRight() {
         removeDirection = RemoveDirection.RIGHT;
         final int delta = (screenWidth + itemView.getScrollX());
-        scroller.startScroll(itemView.getScrollX(), 0, -delta, 0, Math.abs(delta));
+        scroller.startScroll(itemView.getScrollX(), 0, -delta, 0, 3 * Math.abs(delta));
         postInvalidate();
     }
     
     private void scrollLeft() {
         removeDirection = RemoveDirection.LEFT;
         final int delta = (screenWidth - itemView.getScrollX());
-        scroller.startScroll(itemView.getScrollX(), 0, delta, 0, Math.abs(delta));
+        scroller.startScroll(itemView.getScrollX(), 0, delta, 0, 8 * Math.abs(delta));
         postInvalidate();
     }
     

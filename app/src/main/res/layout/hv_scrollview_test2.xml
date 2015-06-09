@@ -13,7 +13,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"></LinearLayout>
 
-        <demo.alexan.com.view.CascadeScrollView
+        <demo.alexan.com.view.CascadeHorizontalView
             android:id="@+id/top_banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -71,7 +71,7 @@
                     android:text="abc7"
                     android:gravity="center"/>
             </LinearLayout>    
-        </demo.alexan.com.view.CascadeScrollView>
+        </demo.alexan.com.view.CascadeHorizontalView>
     </LinearLayout>
 
     <LinearLayout
@@ -154,11 +154,17 @@
             </LinearLayout>    
         </demo.alexan.com.view.CascadeScrollView>
         
-        <demo.alexan.com.view.CascadeScrollView
+        <demo.alexan.com.view.CascadeHorizontalView
             android:id="@+id/main_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <demo.alexan.com.view.CascadeScrollView
+                    android:id="@+id/main_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                     <TableLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -622,9 +628,12 @@
                                 android:gravity="center"/>
                         </TableRow>
                     </TableLayout>    
-         
-        </demo.alexan.com.view.CascadeScrollView>
+                </demo.alexan.com.view.CascadeScrollView>    
+            </LinearLayout>    
+        </demo.alexan.com.view.CascadeHorizontalView>
         
-        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
     </LinearLayout>
 </LinearLayout>
