@@ -86,6 +86,13 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, ExtendCascadeScrollActivity.class));
             }
         });
+        
+        findViewById(R.id.btn_hv_slide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HvSlideActivity.class));
+            }
+        });
     }
 
 

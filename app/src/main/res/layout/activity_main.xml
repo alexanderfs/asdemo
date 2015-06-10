@@ -61,6 +61,11 @@
             android:text="extend cascade scroll"
             style="@style/alexStyle"/>
 
+        <Button
+            android:id="@+id/btn_hv_slide"
+            android:text="hv slide"
+            style="@style/alexStyle"/>
+
     </LinearLayout>
 
 </ScrollView>
