@@ -20,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="horizontal">
-        <demo.alexan.com.view.ChartHeadView
+        <demo.alexan.com.view.ChartLeftView
             android:id="@+id/chart_left_side"
             android:layout_width="50dp"
             android:layout_height="600dp" />
-        <demo.alexan.com.view.ChartHeadView
+        <demo.alexan.com.view.ChartMainView
             android:id="@+id/chart_main"
             android:layout_width="900dp"
             android:layout_height="600dp" />

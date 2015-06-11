@@ -41,7 +41,6 @@
             android:hardwareAccelerated="false"
             android:label="my app" />
         <activity android:name=".HvSlideActivity"
-            android:hardwareAccelerated="false"
             android:label="my app" />
     </application>
 

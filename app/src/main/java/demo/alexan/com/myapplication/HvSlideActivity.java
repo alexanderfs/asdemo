@@ -15,6 +15,8 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import demo.alexan.com.view.ChartHeadView;
+import demo.alexan.com.view.ChartLeftView;
+import demo.alexan.com.view.ChartMainView;
 
 /**
  * Created by Alex on 2015/6/10.
@@ -23,14 +25,16 @@ public class HvSlideActivity extends Activity {
     
     //private TextView chartHead;
     private ChartHeadView chHead;
-    private ChartHeadView chLeft;
-    private ChartHeadView chMain;
+    private ChartLeftView chLeft;
+    private ChartMainView chMain;
     private int headWidth;
     private int sideHeight;
     private int preX;
     private int preY;
     private VelocityTracker vt;
-    private Scroller mScroller;
+    private Scroller mScrollerHead;
+    private Scroller mScrollerLeft;
+    //private Scroller mScrollerMain;
     private int mMaximumVelocity;
     private int mMinimumVelocity;
     
@@ -38,21 +42,28 @@ public class HvSlideActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hv_slide_chart);
-        //chartHead = (TextView) findViewById(R.id.chart_head_text);
         chHead = (ChartHeadView) findViewById(R.id.chart_head);
-        chLeft = (ChartHeadView) findViewById(R.id.chart_left_side);
-        chMain = (ChartHeadView) findViewById(R.id.chart_main);
+        chLeft = (ChartLeftView) findViewById(R.id.chart_left_side);
+        chMain = (ChartMainView) findViewById(R.id.chart_main);
         init();
     }
+    
     
     private void init() {
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
         headWidth = (int)(dm.widthPixels - 50 * dm.density);
         sideHeight = (int)dm.density * 400;
-        mScroller = new Scroller(this, new DecelerateInterpolator(2.0f));
+        
+        mScrollerHead = new Scroller(this, new DecelerateInterpolator(2.0f));
+        chHead.setScroller(mScrollerHead);
+        chHead.setMainView(chMain);
+        mScrollerLeft = new Scroller(this, new DecelerateInterpolator(2.0f));
+        chLeft.setScroller(mScrollerLeft);
+        chLeft.setMainView(chMain);
+        //mScrollerMain = new Scroller(this, new DecelerateInterpolator(2.0f));
+        //chMain.setScroller(mScrollerMain);
         mMaximumVelocity = ViewConfiguration.get(this).getScaledMaximumFlingVelocity();
         mMinimumVelocity = ViewConfiguration.get(this).getScaledMinimumFlingVelocity();
-        chMain.setScroller(mScroller);
     }
 
     @Override
@@ -84,7 +95,7 @@ public class HvSlideActivity extends Activity {
             vt = null;
         }
     }
-
+    
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         obtainVelocityTracker(event);
@@ -92,58 +103,67 @@ public class HvSlideActivity extends Activity {
         int currY = (int) event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(!mScroller.isFinished()) {
-                    mScroller.abortAnimation();
+                if(!mScrollerLeft.isFinished()) {
+                    mScrollerLeft.abortAnimation();
                 }
+                if(!mScrollerHead.isFinished()) {
+                    mScrollerHead.abortAnimation();
+                }
+                /*if(!mScrollerMain.isFinished()) {
+                    mScrollerMain.abortAnimation();
+                }*/
                 break;
             case MotionEvent.ACTION_MOVE:
                 
                 int newHeadX = chHead.getScrollX() + preX - currX;
-                if(newHeadX > 0 && newHeadX < (chHead.getWidth() - headWidth)) {
-                    chHead.scrollBy(preX - currX, 0);    
-                }
                 int newLeftY = chLeft.getScrollY() + preY - currY;
-                if(newLeftY > 0 && newLeftY < (chLeft.getHeight() - sideHeight)) {
-                    chLeft.scrollBy(0, preY - currY);    
+                boolean xMove = newHeadX > 0 && newHeadX < (chHead.getWidth() - headWidth);
+                boolean yMove = newLeftY > 0 && newLeftY < (chLeft.getHeight() - sideHeight); 
+                if(xMove) {
+                    chHead.scrollBy(preX - currX, 0);
+                    //chMain.scrollBy(preX - currX, 0);
+                    if(yMove) {
+                        chMain.scrollBy(preX - currX, preY - currY);    
+                    } else {
+                        chMain.scrollBy(preX - currX, 0);
+                    }
                 }
-                if(newHeadX > 0 && newHeadX < (chMain.getWidth() - headWidth)
-                    && newLeftY > 0 && newLeftY < (chMain.getHeight() - sideHeight)) {
-                    chMain.scrollBy(preX - currX, preY - currY);    
+                if(yMove) {
+                    chLeft.scrollBy(0, preY - currY);
+                    //chMain.scrollBy(0, preY - currY);
+                    if(!xMove) {
+                        chMain.scrollBy(0, preY - currY);
+                    }
                 }
+                
                 preX = currX;
                 preY = currY;
                 break;
             case MotionEvent.ACTION_UP:
                 vt.computeCurrentVelocity(1000, mMaximumVelocity);
-                int initialVelocitx = (int) vt.getXVelocity();
-                int initialVelocity = (int) vt.getYVelocity();
-                if (Math.abs(initialVelocitx) > initialVelocitx || Math.abs(initialVelocity) > mMinimumVelocity) {
-                    mScroller.fling(currX, currY, -initialVelocitx, -initialVelocity, 0, chMain.getWidth() - headWidth, 0, chMain.getHeight() - sideHeight);
+                int xv = (int) vt.getXVelocity();
+                int yv = (int) vt.getYVelocity();
+                if (Math.abs(xv) > xv || Math.abs(xv) > mMinimumVelocity) {
+                    mScrollerHead.fling(chHead.getScrollX(), 0, -xv, 0, 0, chHead.getWidth() - headWidth, 0, 0);
                 } else {
-                    mScroller.fling(currX, currY, initialVelocitx, initialVelocity, 0, chMain.getWidth() - headWidth, 0, chMain.getHeight() - sideHeight);
+                    mScrollerHead.fling(chHead.getScrollX(), 0, xv, 0, 0, chHead.getWidth() - headWidth, 0, 0);
                 }
+                
+                if(Math.abs(yv) > yv || Math.abs(yv) > mMinimumVelocity) {
+                    mScrollerLeft.fling(0, chLeft.getScrollY(), 0, -yv, 0, 0, 0, chLeft.getHeight() - sideHeight);
+                } else {
+                    mScrollerLeft.fling(0, chLeft.getScrollY(), 0, yv, 0, 0, 0, chLeft.getHeight() - sideHeight);
+                }
+                
+                /*if(() && ()) {
+                    mScrollerMain.fling(chMain.getScrollX(), chMain.getScrollY(),
+                            -xv, -yv, 0, chMain.getWidth() - headWidth, 0, chMain.getHeight() - sideHeight);
+                }*/
                 
                 releaseVelocityTracker();
                 break;
         }
         return super.onTouchEvent(event);
     }
-
-    /*private void fling(int velocityX, int velocityY) {
-        
-        if (getChildCount() > 0) {
-            int width = getWidth() - getPaddingRight() - getPaddingLeft();
-            int right = getChildAt(0).getWidth();
-
-            int height = getHeight() - getPaddingBottom() - getPaddingTop();
-            int bottom = getChildAt(0).getHeight();
-
-            mScroller.fling(chMain.getScrollX(), chMain.getScrollY(), velocityX, velocityY,
-                    0, Math.max(0, right - width),
-                    0, Math.max(0, bottom - height));
-
-            invalidate();
-        }
-    }*/
 
 }
