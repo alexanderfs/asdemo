@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="demo.alexan.com.myapplication" >
-    <uses-sdk android:minSdkVersion="7"
+
+    <uses-sdk
+        android:minSdkVersion="7"
         android:targetSdkVersion="21" />
+
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -18,30 +28,44 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name=".PinnedSectionListActivity"
+        <activity
+            android:name=".PinnedSectionListActivity"
             android:label="my application" />
-        <activity android:name=".AlexViewGroupActivity"
+        <activity
+            android:name=".AlexViewGroupActivity"
             android:label="my application" />
-        <activity android:name=".SlideCutActivity"
+        <activity
+            android:name=".SlideCutActivity"
             android:label="my application" />
-        <activity android:name=".ScrollActivity"
+        <activity
+            android:name=".ScrollActivity"
             android:label="my application" />
-        <activity android:name=".SlideMenuActivity"
+        <activity
+            android:name=".SlideMenuActivity"
             android:label="my application" />
-        <activity android:name=".RefreshItemActivity"
+        <activity
+            android:name=".RefreshItemActivity"
             android:label="my app" />
-        <activity android:name=".DynamicListActivity"
+        <activity
+            android:name=".DynamicListActivity"
             android:label="my app" />
-        <activity android:name=".CascadeScrollActivity"
+        <activity
+            android:name=".CascadeScrollActivity"
             android:label="my app" />
-        <activity android:name=".ExtendCascadeScrollActivity"
+        <activity
+            android:name=".ExtendCascadeScrollActivity"
             android:label="my app" />
-        <activity android:name=".ScrollerUsageActivity"
+        <activity
+            android:name=".ScrollerUsageActivity"
             android:hardwareAccelerated="false"
             android:label="my app" />
-        <activity android:name=".HvSlideActivity"
+        <activity
+            android:name=".HvSlideActivity"
             android:label="my app" />
+        <activity
+            android:name=".FusionScrollActivity"
+            android:label="@string/title_activity_fusion_scroll" >
+        </activity>
     </application>
 
 </manifest>

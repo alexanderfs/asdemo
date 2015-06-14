@@ -11,4 +11,5 @@
     <string name="action_updateDataset">Update dataset</string>
     <string name="super_long_string">i know just how to live it, and i know just how to cry
         i know just how to find the answer and i know just how to lie. i know just how to fake it and i know just how to do</string>
+    <string name="title_activity_fusion_scroll">FusionScrollActivity</string>
 </resources>

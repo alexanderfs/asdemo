@@ -93,6 +93,13 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, HvSlideActivity.class));
             }
         });
+
+        findViewById(R.id.btn_fusion_slide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, FusionScrollActivity.class));
+            }
+        });
     }
 
 

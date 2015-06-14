@@ -66,6 +66,11 @@
             android:text="hv slide"
             style="@style/alexStyle"/>
 
+        <Button
+            android:id="@+id/btn_fusion_slide"
+            android:text="fusion slide"
+            style="@style/alexStyle"/>
+
     </LinearLayout>
 
 </ScrollView>
