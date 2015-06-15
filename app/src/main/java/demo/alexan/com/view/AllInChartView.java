@@ -77,6 +77,7 @@ public class AllInChartView extends LinearLayout {
             public void onGlobalLayout() {
                 sideHeight = vContainer.getHeight();
                 cmv.setFrameSize(headWidth, sideHeight);
+                initCustomClickRange();
             }
         });
         clv = (ChartLeftView) findViewById(R.id.chart_left_side);
@@ -154,6 +155,46 @@ public class AllInChartView extends LinearLayout {
         }
     }
 
+    private int lastEvent;
+    private int x11, x12, y11, y12;
+    private int x21, x22, y21, y22;
+
+    private void initCustomClickRange() {
+        x11 = 0;
+        y11 = 0;
+        x12 = 80 * (int)dm.density;
+        y12 = 30 * (int)dm.density;
+
+        x21 = 80 * (int)dm.density;
+        y21 = y12 + sideHeight + y12;
+        x22 = vContainer.getWidth();
+        y22 = y21 + 30 * (int)dm.density;
+    }
+
+    private boolean isValidClick() {
+         return lastEvent == MotionEvent.ACTION_DOWN;
+    }
+
+    private boolean isChangeRange(MotionEvent ev) {
+        int x = (int)ev.getX();
+        int y = (int)ev.getY();
+        if(x >= x11 && x <= x12 && y >= y11 && y < y12) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int getChooseBall(MotionEvent ev) {
+        int x = (int)ev.getX();
+        int y = (int)ev.getY();
+        if(x >= x21 && x <= x22 && y >= y21 && y <= y22) {
+            return (x + chv.getScrollX()) / (30 * (int)dm.density);
+        } else {
+            return -1;
+        }
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //onTouchEvent真是要你何用啊
@@ -170,6 +211,7 @@ public class AllInChartView extends LinearLayout {
                 if(!mScrollerLeft.isFinished()) {
                     mScrollerLeft.abortAnimation();
                 }
+                lastEvent = MotionEvent.ACTION_DOWN;
                 //这里必须返回true
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -196,8 +238,19 @@ public class AllInChartView extends LinearLayout {
                 }
                 preX = currX;
                 preY = currY;
+                lastEvent = MotionEvent.ACTION_MOVE;
                 break;
             case MotionEvent.ACTION_UP:
+                if(isValidClick()) {
+                    if(isChangeRange(ev)) {
+                        Toast.makeText(getContext(), "change range!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        int idx = getChooseBall(ev);
+                        if(idx > -1) {
+                            Toast.makeText(getContext(), "ball " + idx + " got choosen!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
                 vt.computeCurrentVelocity(1000, mMaximumVelocity);
                 int xv = (int) vt.getXVelocity();
                 int yv = (int) vt.getYVelocity();
@@ -213,6 +266,7 @@ public class AllInChartView extends LinearLayout {
                     mScrollerLeft.fling(0, clv.getScrollY(), 0, yv, 0, 0, 0, clv.getHeight() - vContainer.getHeight());
                 }
                 releaseVelocityTracker();
+                lastEvent = MotionEvent.ACTION_UP;
                 break;
         }
         return super.onTouchEvent(ev);
