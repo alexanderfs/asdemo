@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 /**
@@ -21,6 +22,15 @@ public class ChartHeadView extends View {
     private Paint p2;
     private Scroller mScroller;
     private ChartMainView mainView;
+    private LinearLayout choosingView;
+    private String[] arrayData;
+    
+    private void generateData() {
+        arrayData = new String[35];
+        for(int i = 0; i < 35; i++) {
+            arrayData[i] = "" + i;
+        }
+    }
     
     public ChartHeadView(Context context) {
         super(context);
@@ -38,9 +48,10 @@ public class ChartHeadView extends View {
     }
     
     private void init(Context ctx) {
+        generateData();
         DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
-        minHeight = (int)dm.density * 50;
-        minWidth = (int)dm.density * 30 * 30;
+        minHeight = (int)dm.density * 30;
+        minWidth = (int)dm.density * arrayData.length * 30;
         paperColor = ctx.getResources().getColor(android.R.color.holo_red_dark);
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
@@ -48,11 +59,11 @@ public class ChartHeadView extends View {
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStrokeWidth(3);
         p2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(ctx.getResources().getColor(android.R.color.holo_red_dark));
+        p2.setColor(ctx.getResources().getColor(android.R.color.holo_red_dark));
         //p2.setStrokeJoin(Paint.Join.ROUND);
         //p2.setStrokeCap(Paint.Cap.ROUND);
         //p2.setStrokeWidth(3);
-        p2.setTextSize(100);
+        p2.setTextSize(50);
     }
     
     public void setScroller(Scroller scroller) {
@@ -61,6 +72,14 @@ public class ChartHeadView extends View {
 
     public void setMainView(ChartMainView mainView) {
         this.mainView = mainView;
+    }
+
+    public void setArrayData(String[] arrayData) {
+        this.arrayData = arrayData;
+    }
+
+    public void setChoosingView(LinearLayout choosingView) {
+        this.choosingView = choosingView;
     }
 
     @Override
@@ -76,17 +95,19 @@ public class ChartHeadView extends View {
         int specSize = MeasureSpec.getSize(measureSpec);
         
         if(type == 0) {
-            if(specMode == MeasureSpec.EXACTLY) {
+            return minWidth;
+            /*if(specMode == MeasureSpec.EXACTLY) {
                 return specSize;
             } else {
                 return minWidth;    
-            }
+            }*/
         } else {
-            if(specMode == MeasureSpec.EXACTLY) {
+            return minHeight;
+            /*if(specMode == MeasureSpec.EXACTLY) {
                 return specSize;
             } else {
                 return minHeight;
-            }
+            }*/
         }
     }
     
@@ -94,13 +115,12 @@ public class ChartHeadView extends View {
     protected void onDraw(Canvas canvas) {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        int squareCount = 18;
         int squarePad = 5;
         int currX = -height;
-        for(int i = 0; i < squareCount; i++) {
+        for(int i = 0; i < arrayData.length; i++) {
             currX += height;
             canvas.drawRect(currX + squarePad, squarePad, currX + height - squarePad, height - squarePad, p);
-            canvas.drawText("" + i, currX + squarePad, height - squarePad, p2);
+            canvas.drawText(arrayData[i], currX + squarePad * 2, height - squarePad * 2, p2);
         }
         super.onDraw(canvas);
     }
@@ -112,6 +132,9 @@ public class ChartHeadView extends View {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             if(mainView != null) {
                 mainView.setMyScrollX(mScroller.getCurrX());
+            }
+            if(choosingView != null) {
+                choosingView.scrollTo(mScroller.getCurrX(), choosingView.getScrollY());
             }
             postInvalidate();
         }

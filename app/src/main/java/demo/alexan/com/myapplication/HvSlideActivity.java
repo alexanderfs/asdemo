@@ -41,7 +41,7 @@ public class HvSlideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hv_slide_chart);
+        setContentView(R.layout.hv_slide_chart2);
         chHead = (ChartHeadView) findViewById(R.id.chart_head);
         chLeft = (ChartLeftView) findViewById(R.id.chart_left_side);
         chMain = (ChartMainView) findViewById(R.id.chart_main);
