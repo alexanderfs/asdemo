@@ -354,4 +354,13 @@ public class AllInChartView extends LinearLayout {
         //this.requestLayout();
         
     }
+    
+    
+    public void changeBall(int line, int column) {
+        cmv.setChartDimension(line, column);
+        clv.setDimension(line);
+        chv.setDimension(column);
+        cmv.requestLayout();
+        clv.requestLayout();
+    }
 }

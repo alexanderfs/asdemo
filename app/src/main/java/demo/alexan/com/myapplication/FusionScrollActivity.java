@@ -8,12 +8,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import demo.alexan.com.view.AllInChartView;
+
 
 public class FusionScrollActivity extends ActionBarActivity {
     
     private RadioGroup mRg;
-    private RadioButton mRedRb;
-    private RadioButton mBlueRb;
+    private AllInChartView mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,13 @@ public class FusionScrollActivity extends ActionBarActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == R.id.redball_trend) {
-                    Toast.makeText(FusionScrollActivity.this, "test1", Toast.LENGTH_SHORT).show();
+                    mainView.changeBall(100, 35);
                 } else if(checkedId == R.id.blueball_trend) {
-                    Toast.makeText(FusionScrollActivity.this, "test2", Toast.LENGTH_SHORT).show();
+                    mainView.changeBall(100, 16);
                 }
             }
         });
+        mainView = (AllInChartView) findViewById(R.id.main_frame);
     }
 
 
