@@ -98,6 +98,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, FusionScrollActivity.class));
+                overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
             }
         });
 
