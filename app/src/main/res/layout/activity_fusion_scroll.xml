@@ -4,13 +4,13 @@
     android:orientation="vertical"
     tools:context="demo.alexan.com.myapplication.FusionScrollActivity">
     <RadioGroup
-        android:id="@+id/award_ranking_radiogroup"
+        android:id="@+id/colorful_ball_radiogroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#FFFFFF">
         <RadioButton
-            android:id="@+id/daigou_award_ranking"
+            android:id="@+id/redball_trend"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -22,7 +22,7 @@
             android:checked="true"
             android:background="@drawable/award_ranking_btn_bg2"/>
         <RadioButton
-            android:id="@+id/hemai_award_ranking"
+            android:id="@+id/blueball_trend"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"

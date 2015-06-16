@@ -88,12 +88,47 @@ public class AllInChartView extends LinearLayout {
                 sideHeight = vContainer.getHeight();
                 cmv.setFrameSize(headWidth, sideHeight);
                 initCustomClickRange();
-                adjustPostion();
+                //adjustPostion();
                 Log.d("ongloballayout", "layout");
             }
         });
         clv = (ChartLeftView) findViewById(R.id.chart_left_side);
+        clv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d("viewobserver", "" + clv.getMeasuredHeight());
+                clv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        clv.scrollTo(0, clv.getMeasuredHeight() - sideHeight);
+                    }
+                });
+                //clv.invalidate();
+            }
+        });
         cmv = (ChartMainView) findViewById(R.id.chart_main);
+        cmv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                /*Log.d("viewobserver1", "" + cmv.getMeasuredHeight() + ", " + cmv.getScrollY());
+                cmv.scrollTo(0, cmv.getMeasuredHeight() - sideHeight);
+                Log.d("viewobserver2", "" + cmv.getMeasuredHeight() + ", " + cmv.getScrollY());*/
+                cmv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("viewobserver", "" + cmv.getMeasuredHeight() + ", " + cmv.getScrollY());
+                        cmv.scrollTo(0, cmv.getMeasuredHeight() - sideHeight);
+                        Log.d("viewobserver", "" + cmv.getMeasuredHeight() + ", " + cmv.getScrollY());
+                    }
+                });
+                chv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        chv.scrollTo(0, 0);
+                    }
+                });
+            }
+        });
         
         cb5v = (LinearLayout) findViewById(R.id.chart_bottom5);
         inflateChoosenBall();
@@ -315,7 +350,8 @@ public class AllInChartView extends LinearLayout {
         cmv.requestLayout();
         clv.setDimension(rangeInt[which]);
         clv.requestLayout();
-        this.requestLayout();
+        
+        //this.requestLayout();
         
     }
 }

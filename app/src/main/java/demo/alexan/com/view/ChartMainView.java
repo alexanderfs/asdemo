@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Scroller;
 
@@ -127,7 +128,9 @@ public class ChartMainView extends View {
     
     private int myGetScrollY() {
         if(getScrollY() + frameHeight > getMeasuredHeight()) {
+            scrollTo(getScrollX(), getMeasuredHeight() - frameHeight);
             return getMeasuredHeight() - frameHeight;
+            
         } else {
             return getScrollY();
         }
@@ -137,11 +140,12 @@ public class ChartMainView extends View {
     protected void onDraw(Canvas canvas) {
         //canvas.clipRect(getScrollX(), getScrollY(), getScrollX() + 300, getScrollY() + 300 );
         int squareSize = 30 * (int)dm.density;
-        int startx = myGetScrollX() / squareSize;
+        int startx = getScrollX() / squareSize;
         int endx = startx + columnCount > columnNumber ? columnNumber : startx + columnCount;
         int startC = startx * squareSize;
-        
-        int starty = myGetScrollY() / squareSize;
+
+        Log.d("ondraw", "" + getMeasuredHeight() + ", " + getScrollY());
+        int starty = getScrollY() / squareSize;
         int endy = starty + lineCount > (lineNumber + 4) ? (lineNumber + 4) : starty + lineCount;
         int startR = starty * squareSize;
         
