@@ -15,19 +15,23 @@ import android.widget.Scroller;
  */
 public class ChartHeadView extends View {
     
-    private int minHeight;
-    private int minWidth;
-    private int paperColor;
     private Paint p;
     private Paint p2;
     private Scroller mScroller;
     private ChartMainView mainView;
     private LinearLayout choosingView;
     private String[] arrayData;
+    private int columnNumber = 35;
+    private DisplayMetrics dm;
+    
+    public void setDimension(int columnNumber) {
+        this.columnNumber = columnNumber;
+        generateData();
+    }
     
     private void generateData() {
-        arrayData = new String[35];
-        for(int i = 0; i < 35; i++) {
+        arrayData = new String[columnNumber];
+        for(int i = 0; i < columnNumber; i++) {
             arrayData[i] = "" + i;
         }
     }
@@ -49,10 +53,7 @@ public class ChartHeadView extends View {
     
     private void init(Context ctx) {
         generateData();
-        DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
-        minHeight = (int)dm.density * 30;
-        minWidth = (int)dm.density * arrayData.length * 30;
-        paperColor = ctx.getResources().getColor(android.R.color.holo_red_dark);
+        dm = ctx.getResources().getDisplayMetrics();
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
         p.setStrokeJoin(Paint.Join.ROUND);
@@ -60,9 +61,6 @@ public class ChartHeadView extends View {
         p.setStrokeWidth(3);
         p2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         p2.setColor(ctx.getResources().getColor(android.R.color.holo_red_dark));
-        //p2.setStrokeJoin(Paint.Join.ROUND);
-        //p2.setStrokeCap(Paint.Cap.ROUND);
-        //p2.setStrokeWidth(3);
         p2.setTextSize(50);
     }
     
@@ -91,23 +89,11 @@ public class ChartHeadView extends View {
     }
     
     private int getMeasureParam(int measureSpec, int type) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
         
         if(type == 0) {
-            return minWidth;
-            /*if(specMode == MeasureSpec.EXACTLY) {
-                return specSize;
-            } else {
-                return minWidth;    
-            }*/
+            return (int)dm.density * columnNumber * 30;
         } else {
-            return minHeight;
-            /*if(specMode == MeasureSpec.EXACTLY) {
-                return specSize;
-            } else {
-                return minHeight;
-            }*/
+            return (int)dm.density * 30;
         }
     }
     

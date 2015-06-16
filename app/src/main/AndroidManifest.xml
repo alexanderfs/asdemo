@@ -66,6 +66,10 @@
             android:name=".FusionScrollActivity"
             android:label="@string/title_activity_fusion_scroll" >
         </activity>
+        <activity
+            android:name=".GridViewTestActivity"
+            android:label="@string/title_activity_grid_view_test" >
+        </activity>
     </application>
 
 </manifest>

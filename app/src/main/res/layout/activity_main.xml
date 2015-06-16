@@ -71,6 +71,11 @@
             android:text="fusion slide"
             style="@style/alexStyle"/>
 
+        <Button
+            android:id="@+id/btn_test_gridview"
+            android:text="test gridview"
+            style="@style/alexStyle"/>
+
     </LinearLayout>
 
 </ScrollView>

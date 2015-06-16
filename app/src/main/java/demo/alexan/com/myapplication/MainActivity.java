@@ -100,6 +100,13 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, FusionScrollActivity.class));
             }
         });
+
+        findViewById(R.id.btn_test_gridview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GridViewTestActivity.class));
+            }
+        });
     }
 
 

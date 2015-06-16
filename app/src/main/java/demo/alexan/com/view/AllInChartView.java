@@ -1,8 +1,11 @@
 package demo.alexan.com.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -11,11 +14,15 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import demo.alexan.com.myapplication.R;
 
@@ -27,13 +34,9 @@ public class AllInChartView extends LinearLayout {
     private ChartHeadView chv;
     private ChartLeftView clv;
     private ChartMainView cmv;
-  /*  private ChartHeadView cb1v;
-    private ChartHeadView cb2v;
-    private ChartHeadView cb3v;
-    private ChartHeadView cb4v;*/
     private LinearLayout vContainer;
     private LinearLayout cb5v;
-    private LinearLayout cb6v;
+    private GridView cb6v;
 
     private DisplayMetrics dm;
     private int headWidth;
@@ -49,10 +52,15 @@ public class AllInChartView extends LinearLayout {
     private int mMaximumVelocity;
     private int mMinimunVelocity;
 
-    private String[] arrayData = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
-            "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-            "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
-            "31", "32", "33", "34", "35"};
+    private String[] arrayData;
+    private ArrayList<String> choosenData = new ArrayList<String>();
+    
+    private void generateData() {
+        arrayData = new String[35];
+        for(int i = 0; i < 35; i++) {
+            arrayData[i] = "" + i;
+        }
+    }
 
     public AllInChartView(Context context) {
         super(context);
@@ -65,6 +73,8 @@ public class AllInChartView extends LinearLayout {
     }
     
     private void init() {
+        generateData();
+        
         dm = getContext().getResources().getDisplayMetrics();
         
         LayoutInflater li = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,18 +88,17 @@ public class AllInChartView extends LinearLayout {
                 sideHeight = vContainer.getHeight();
                 cmv.setFrameSize(headWidth, sideHeight);
                 initCustomClickRange();
+                adjustPostion();
+                Log.d("ongloballayout", "layout");
             }
         });
         clv = (ChartLeftView) findViewById(R.id.chart_left_side);
         cmv = (ChartMainView) findViewById(R.id.chart_main);
-        /*cb1v = (ChartHeadView) findViewById(R.id.chart_bottom1);
-        cb2v = (ChartHeadView) findViewById(R.id.chart_bottom2);
-        cb3v = (ChartHeadView) findViewById(R.id.chart_bottom3);
-        cb4v = (ChartHeadView) findViewById(R.id.chart_bottom4);*/
+        
         cb5v = (LinearLayout) findViewById(R.id.chart_bottom5);
         inflateChoosenBall();
-        cb6v = (LinearLayout) findViewById(R.id.chart_bottom6);
-
+        cb6v = (GridView) findViewById(R.id.chart_bottom6);
+        initGridView();
         
         headWidth = (int)(dm.widthPixels - 80 * dm.density);
         //sideHeight = (int)dm.density * cmv.getHeight();
@@ -104,6 +113,24 @@ public class AllInChartView extends LinearLayout {
 
         mMaximumVelocity = ViewConfiguration.get(getContext()).getScaledMaximumFlingVelocity();
         mMinimunVelocity = ViewConfiguration.get(getContext()).getScaledMinimumFlingVelocity();
+        
+        
+    }
+    
+    private void adjustPostion() {
+        clv.scrollTo(0, clv.getMeasuredHeight() - sideHeight);
+        cmv.scrollTo(0, clv.getMeasuredHeight() - sideHeight);
+    }
+    
+    private ArrayAdapter aa;
+    
+    private void initGridView() {
+        //cb6v.setHorizontalSpacing((int)dm.density);
+        //cb6v.setVerticalSpacing((int) dm.density);
+        //cb6v.setNumColumns((dm.widthPixels - (int) dm.density * 80) / 30);
+        aa = new ArrayAdapter(getContext(), R.layout.gridview_item, choosenData);
+        cb6v.setAdapter(aa);
+        Log.d("initgridview", "init");
     }
     
     private void inflateChoosenBall() {
@@ -123,22 +150,6 @@ public class AllInChartView extends LinearLayout {
         }
     }
     
-
-    /*@Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                preX = (int)ev.getX();
-                preY = (int)ev.getY();
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                //todo:这里改成了return true就接受不到touch事件了
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-        return super.dispatchTouchEvent(ev);
-    }*/
 
     private void obtainVelocityTracker(MotionEvent ev) {
         if(vt == null) {
@@ -166,7 +177,7 @@ public class AllInChartView extends LinearLayout {
         y12 = 30 * (int)dm.density;
 
         x21 = 80 * (int)dm.density;
-        y21 = y12 + sideHeight + y12;
+        y21 = y12 + sideHeight;
         x22 = vContainer.getWidth();
         y22 = y21 + 30 * (int)dm.density;
     }
@@ -189,7 +200,7 @@ public class AllInChartView extends LinearLayout {
         int x = (int)ev.getX();
         int y = (int)ev.getY();
         if(x >= x21 && x <= x22 && y >= y21 && y <= y22) {
-            return (x + chv.getScrollX()) / (30 * (int)dm.density);
+            return (x - x21 + chv.getScrollX()) / (30 * (int)dm.density);
         } else {
             return -1;
         }
@@ -243,11 +254,21 @@ public class AllInChartView extends LinearLayout {
             case MotionEvent.ACTION_UP:
                 if(isValidClick()) {
                     if(isChangeRange(ev)) {
-                        Toast.makeText(getContext(), "change range!", Toast.LENGTH_SHORT).show();
+                        showChangeRangeDialog();
                     } else {
                         int idx = getChooseBall(ev);
-                        if(idx > -1) {
-                            Toast.makeText(getContext(), "ball " + idx + " got choosen!", Toast.LENGTH_SHORT).show();
+                        int idx2 = -1;
+                        if(idx > -1 && idx < arrayData.length) {
+                            if((idx2 = choosenData.indexOf(arrayData[idx])) != -1) {
+                                choosenData.remove(idx2);
+                            } else {
+                                choosenData.add(arrayData[idx]);    
+                            }
+                            aa.notifyDataSetChanged();
+                            //todo: 这两句好像没啥用
+                            //requestLayout();
+                            //invalidate();
+                            //Toast.makeText(getContext(), "ball " + idx + " got choosen!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -270,5 +291,31 @@ public class AllInChartView extends LinearLayout {
                 break;
         }
         return super.onTouchEvent(ev);
+    }
+    
+    private String[] rangeData = new String[] {
+            "最近30期", "最近50期", "最近100期", "最近200期"
+    };
+    
+    private int[] rangeInt = new int[]{30, 50, 100, 200};
+
+    private void showChangeRangeDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("选择范围")
+                .setItems(rangeData, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        changeRange(which);
+                    }
+                }).create().show();
+    } 
+    
+    private void changeRange(int which) {
+        cmv.setChartDimension(rangeInt[which], 35);
+        cmv.requestLayout();
+        clv.setDimension(rangeInt[which]);
+        clv.requestLayout();
+        this.requestLayout();
+        
     }
 }

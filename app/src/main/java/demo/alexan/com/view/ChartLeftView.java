@@ -14,25 +14,28 @@ import android.widget.Scroller;
  */
 public class ChartLeftView extends View {
     
-    private int minHeight;
-    private int minWidth;
-    //private int paperColor;
     private Paint p;
     private Paint p2;
     private Scroller mScroller;
     DisplayMetrics dm;
     private ChartMainView mainView;
+    private int lineNumber = 100;
     private String[] arrayData;
     
     private void generateArrayData() {
-        arrayData = new String[104];
-        for(int i = 0; i < 100; i++) {
+        arrayData = new String[4 + lineNumber];
+        for(int i = 0; i < lineNumber; i++) {
             arrayData[i] = "第" + i + "期";
         }
-        arrayData[100] = "出现次数";
-        arrayData[101] = "平均遗漏";
-        arrayData[102] = "最大遗漏";
-        arrayData[103] = "最大连出";
+        arrayData[lineNumber] = "出现次数";
+        arrayData[lineNumber + 1] = "平均遗漏";
+        arrayData[lineNumber + 2] = "最大遗漏";
+        arrayData[lineNumber + 3] = "最大连出";
+    }
+    
+    public void setDimension(int lineNumber) {
+        this.lineNumber = lineNumber;
+        generateArrayData();
     }
     
     public ChartLeftView(Context context) {
@@ -54,9 +57,6 @@ public class ChartLeftView extends View {
         generateArrayData();
         
         dm = ctx.getResources().getDisplayMetrics();
-        minHeight = (int)dm.density * 30 * arrayData.length;
-        minWidth = (int)dm.density * 80;
-        //paperColor = ctx.getResources().getColor(android.R.color.holo_red_dark);
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
         p.setStrokeJoin(Paint.Join.ROUND);
@@ -84,23 +84,13 @@ public class ChartLeftView extends View {
     }
     
     private int getMeasureParam(int measureSpec, int type) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
+        /*int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);*/
         
         if(type == 0) {
-            return minWidth;
-            /*if(specMode == MeasureSpec.EXACTLY) {
-                return specSize;
-            } else {
-                return minWidth;    
-            }*/
+            return (int)dm.density * 80;
         } else {
-            return minHeight;
-            /*if(specMode == MeasureSpec.EXACTLY) {
-                return specSize;
-            } else {
-                return minHeight;
-            }*/
+            return (int)dm.density * 30 * (lineNumber + 4);
         }
     }
     

@@ -13,8 +13,8 @@ import android.widget.Scroller;
  */
 public class ChartMainView extends View {
     
-    private int minHeight;
-    private int minWidth;
+    //private int minHeight;
+    //private int minWidth;
     private int paperColor;
     private Paint p;
     private Paint p2;
@@ -22,10 +22,19 @@ public class ChartMainView extends View {
     private DisplayMetrics dm;
     private String[][] arrayData;
     
+    private int lineNumber = 100;
+    private int columnNumber = 35;
+
+    public void setChartDimension(int lineNumber, int columnNumber) {
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
+        generateData();
+    }
+
     private void generateData() {
-        arrayData = new String[104][35];
-        for(int i = 0; i < 104; i++) {
-            for(int j = 0; j < 35; j++) {
+        arrayData = new String[4 + lineNumber][columnNumber];
+        for(int i = 0; i < (4 + lineNumber); i++) {
+            for(int j = 0; j < columnNumber; j++) {
                 arrayData[i][j] = "" + i + j;
             }
         }
@@ -50,8 +59,8 @@ public class ChartMainView extends View {
         generateData();
         
         dm = ctx.getResources().getDisplayMetrics();
-        minHeight = (int)dm.density * 30 * 104;
-        minWidth = (int)dm.density * 30 * 35;
+        //minHeight = (int)dm.density * 30 * 104;
+        //minWidth = (int)dm.density * 30 * 35;
         paperColor = ctx.getResources().getColor(android.R.color.holo_red_dark);
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
@@ -76,23 +85,13 @@ public class ChartMainView extends View {
     }
     
     private int getMeasureParam(int measureSpec, int type) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
+        /*int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);*/
         
         if(type == 0) {
-            /*if(specMode == MeasureSpec.EXACTLY) {
-                return specSize;
-            } else {
-                return minWidth;    
-            }*/
-            return minWidth;
+            return (int)dm.density * 30 * columnNumber;
         } else {
-            /*if(specMode == MeasureSpec.EXACTLY) {
-                return specSize;
-            } else {
-                return minHeight;
-            }*/
-            return minHeight;
+            return (int)dm.density * 30 * (lineNumber + 4);
         }
     }
     
@@ -118,16 +117,32 @@ public class ChartMainView extends View {
         lineCount = frameHeight / squareSize + 2;
     }
     
+    private int myGetScrollX() {
+        if(getScrollX() + frameWidth > getMeasuredWidth()) {
+            return getMeasuredWidth() - frameWidth;
+        } else {
+            return getScrollX();
+        }
+    }
+    
+    private int myGetScrollY() {
+        if(getScrollY() + frameHeight > getMeasuredHeight()) {
+            return getMeasuredHeight() - frameHeight;
+        } else {
+            return getScrollY();
+        }
+    }
+    
     @Override
     protected void onDraw(Canvas canvas) {
         //canvas.clipRect(getScrollX(), getScrollY(), getScrollX() + 300, getScrollY() + 300 );
         int squareSize = 30 * (int)dm.density;
-        int startx = getScrollX() / squareSize;
-        int endx = startx + columnCount > 35 ? 35 : startx + columnCount;
+        int startx = myGetScrollX() / squareSize;
+        int endx = startx + columnCount > columnNumber ? columnNumber : startx + columnCount;
         int startC = startx * squareSize;
         
-        int starty = getScrollY() / squareSize;
-        int endy = starty + lineCount > 104 ? 104 : starty + lineCount;
+        int starty = myGetScrollY() / squareSize;
+        int endy = starty + lineCount > (lineNumber + 4) ? (lineNumber + 4) : starty + lineCount;
         int startR = starty * squareSize;
         
         
@@ -143,15 +158,6 @@ public class ChartMainView extends View {
                 canvas.drawText(arrayData[i][j], currC + squarePad, currR + squareSize - squarePad * 2, p2);
             }
         }
-        /*for(int i = 100; i < 104; i++) {
-            currR = squareSize * i;
-            currC = -squareSize;
-            for(int j = 0; j < columnCount; j++) {
-                currC += squareSize;
-                canvas.drawRect(currC + squarePad, currR + squarePad, currC + squareSize - squarePad, currR + squareSize - squarePad, p);
-                canvas.drawText(arrayData[i - 100][j], currC + squarePad, currR + squareSize - squarePad * 2, p2);
-            }
-        }*/
         
         super.onDraw(canvas);
     }
