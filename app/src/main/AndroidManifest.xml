@@ -67,8 +67,28 @@
             android:label="@string/title_activity_fusion_scroll" >
         </activity>
         <activity
-            android:name=".GridViewTestActivity"
-            android:label="@string/title_activity_grid_view_test" >
+            android:name=".TrendTestActivity"
+            android:label="@string/title_activity_trend_test" >
+        </activity>
+        <activity
+            android:name="demo.alexan.com.trend.TrendSsqActivity"
+            android:label="@string/title_activity_trend_ssq" >
+        </activity>
+        <activity
+            android:name="demo.alexan.com.trend.TrendDltActivity"
+            android:label="@string/title_activity_trend_dlt" >
+        </activity>
+        <activity
+            android:name="demo.alexan.com.trend.TrendQlcActivity"
+            android:label="@string/title_activity_trend_qlc" >
+        </activity>
+        <activity
+            android:name="demo.alexan.com.trend.Trend15x5Activity"
+            android:label="@string/title_activity_trend15x5" >
+        </activity>
+        <activity
+            android:name="demo.alexan.com.trend.TrendK3Activity"
+            android:label="@string/title_activity_trend_k3" >
         </activity>
     </application>
 

@@ -72,8 +72,8 @@
             style="@style/alexStyle"/>
 
         <Button
-            android:id="@+id/btn_test_gridview"
-            android:text="test gridview"
+            android:id="@+id/btn_test_trendchart"
+            android:text="test trendchart"
             style="@style/alexStyle"/>
 
     </LinearLayout>

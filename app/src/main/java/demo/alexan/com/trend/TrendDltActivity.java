@@ -1,37 +1,26 @@
-package demo.alexan.com.myapplication;
+package demo.alexan.com.trend;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 
+import demo.alexan.com.myapplication.R;
 
-public class GridViewTestActivity extends ActionBarActivity {
+public class TrendDltActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_trend_dlt);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grid_view_test);
-        GridView gv = (GridView) findViewById(R.id.my_grid_view);
-        ArrayAdapter aa = new ArrayAdapter(this, R.layout.gridview_item, getArrayData());
-        gv.setAdapter(aa);
-    }
-    
-    private String[] getArrayData() {
-        String[] a = new String[35];
-        for(int i = 0; i < 35; i++) {
-            a[i] = "" + i;
-        }
-        return a;
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_grid_view_test, menu);
+        getMenuInflater().inflate(R.menu.menu_trend_dlt, menu);
         return true;
     }
 

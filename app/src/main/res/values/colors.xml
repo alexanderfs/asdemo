@@ -5,6 +5,27 @@
     <color name="orange_light">#ffffbb33</color>
     <color name="blue_light">#ff33b5e5</color>
     
+    <color name="choosen_tab">#FFFFFF</color>
+    <color name="unchoosen_tab">#EDABAB</color>
+
+
+    <color name="bg_color">#EDE1CA</color>
+    <color name="bg_color_red">#DA5252</color>
+    
+    <color name="line_color">#DAC5A5</color>
+    <color name="line_color_brown">#CCB08B</color>
+    
+    <color name="line_color_shallow">#FEFBF5</color>
+    <color name="line_color_dark">#F9F3E3</color>
+    
+    
+    <color name="word_color">#47433C</color>
+    <color name="word_color2">#89867D</color>
+    <color name="word_color3">#873300</color>
+    <color name="word_color4">#1845B7</color>
+    
+    <color name="word_color_ball_white">#FEFEFE</color>
+    <color name="word_color_normal">#9F9B90</color>
     <!-- Went to: $android-sdk > Android:v14 > res > values > colors.xml and copied the colors-->
     
 </resources>

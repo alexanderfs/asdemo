@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
+import org.w3c.dom.Text;
+
+import demo.alexan.com.myapplication.R;
+
 /**
  * Created by Alex on 2015/6/10.
  */
@@ -17,6 +21,7 @@ public class ChartHeadView extends View {
     
     private Paint p;
     private Paint p2;
+    private Paint pb;
     private Scroller mScroller;
     private ChartMainView mainView;
     private LinearLayout choosingView;
@@ -55,13 +60,15 @@ public class ChartHeadView extends View {
         generateData();
         dm = ctx.getResources().getDisplayMetrics();
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
-        p.setStrokeJoin(Paint.Join.ROUND);
+        p.setColor(ctx.getResources().getColor(R.color.line_color));
+        /*p.setStrokeJoin(Paint.Join.ROUND);
         p.setStrokeCap(Paint.Cap.ROUND);
-        p.setStrokeWidth(3);
+        p.setStrokeWidth(3);*/
         p2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p2.setColor(ctx.getResources().getColor(android.R.color.holo_red_dark));
+        p2.setColor(ctx.getResources().getColor(R.color.word_color));
         p2.setTextSize(50);
+        pb = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pb.setColor((ctx.getResources().getColor(R.color.bg_color)));
     }
     
     public void setScroller(Scroller scroller) {
@@ -99,16 +106,26 @@ public class ChartHeadView extends View {
     
     @Override
     protected void onDraw(Canvas canvas) {
-        int width = getMeasuredWidth();
+        canvas.drawColor(getContext().getResources().getColor(R.color.bg_color));
         int height = getMeasuredHeight();
-        int squarePad = 5;
         int currX = -height;
         for(int i = 0; i < arrayData.length; i++) {
             currX += height;
-            canvas.drawRect(currX + squarePad, squarePad, currX + height - squarePad, height - squarePad, p);
-            canvas.drawText(arrayData[i], currX + squarePad * 2, height - squarePad * 2, p2);
+            canvas.drawLine(currX + height, 0, currX + height, height, p);
+            calculateBase(arrayData[i]);
+            canvas.drawText(arrayData[i], currX + xbase, ybase, p2);
         }
         super.onDraw(canvas);
+    }
+    
+    private int xbase;
+    private int ybase;
+    
+    private void calculateBase(String txt) {
+        Paint.FontMetrics fm = p2.getFontMetrics();
+        float wordWidth = p2.measureText(txt);
+        xbase = (getMeasuredHeight() - (int)wordWidth) / 2;
+        ybase = (int)(getMeasuredHeight() / 2 - fm.descent + (fm.bottom - fm.top) / 2);
     }
 
     @Override

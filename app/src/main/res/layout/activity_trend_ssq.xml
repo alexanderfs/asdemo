@@ -12,7 +12,7 @@
         <RadioButton
             android:id="@+id/redball_trend"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:button="@android:color/transparent"
             android:gravity="center"
@@ -24,7 +24,7 @@
         <RadioButton
             android:id="@+id/blueball_trend"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:button="@android:color/transparent"
             android:gravity="center"
@@ -33,7 +33,7 @@
             android:textSize="17sp"
             android:background="#DA2728"/>
     </RadioGroup>
-    
+
     <demo.alexan.com.view.AllInChartView
         android:id="@+id/main_frame"
         android:layout_width="wrap_content"

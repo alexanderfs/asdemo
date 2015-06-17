@@ -101,10 +101,10 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        findViewById(R.id.btn_test_gridview).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_test_trendchart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GridViewTestActivity.class));
+                startActivity(new Intent(MainActivity.this, TrendTestActivity.class));
             }
         });
     }

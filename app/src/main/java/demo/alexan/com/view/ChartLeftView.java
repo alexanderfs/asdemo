@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Scroller;
 
+import demo.alexan.com.myapplication.R;
+
 /**
  * Created by Alex on 2015/6/10.
  */
@@ -16,6 +18,8 @@ public class ChartLeftView extends View {
     
     private Paint p;
     private Paint p2;
+    private Paint pw;
+    private Paint pl;
     private Scroller mScroller;
     DisplayMetrics dm;
     private ChartMainView mainView;
@@ -58,13 +62,14 @@ public class ChartLeftView extends View {
         
         dm = ctx.getResources().getDisplayMetrics();
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
-        p.setStrokeJoin(Paint.Join.ROUND);
-        p.setStrokeCap(Paint.Cap.ROUND);
-        p.setStrokeWidth(3);
+        p.setColor(ctx.getResources().getColor(R.color.line_color_shallow));
         p2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p2.setColor(ctx.getResources().getColor(android.R.color.holo_red_dark));
-        p2.setTextSize(50);
+        p2.setColor(ctx.getResources().getColor(R.color.line_color_dark));
+        pw = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pw.setColor(ctx.getResources().getColor(R.color.word_color2));
+        pw.setTextSize(40);
+        pl = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pl.setColor(ctx.getResources().getColor(R.color.line_color_brown));
     }
     
     public void setScroller(Scroller scroller) {
@@ -88,7 +93,7 @@ public class ChartLeftView extends View {
         int specSize = MeasureSpec.getSize(measureSpec);*/
         
         if(type == 0) {
-            return (int)dm.density * 80;
+            return (int)dm.density * 55;
         } else {
             return (int)dm.density * 30 * (lineNumber + 4);
         }
@@ -98,15 +103,45 @@ public class ChartLeftView extends View {
     protected void onDraw(Canvas canvas) {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight() / arrayData.length;
-        //int squareCount = arrayData.length;
-        int squarePad = 5;
         int currY = -height;
-        for(int i = 0; i < arrayData.length; i++) {
+        for(int i = 0; i < arrayData.length - 4; i++) {
             currY += height;
-            canvas.drawRect(squarePad, currY + squarePad, width - squarePad, currY + height - squarePad, p);
-            canvas.drawText(arrayData[i], squarePad * 2, currY + height - squarePad * 2, p2);
+            if(i % 2 == 0) {
+                canvas.drawRect(0, currY, width, currY + height, p);    
+            } else {
+                canvas.drawRect(0, currY, width, currY + height, p2);
+            }
+            calculateBase(arrayData[i], height);
+            canvas.drawText(arrayData[i], xbase, currY + ybase, pw);
         }
+        currY += height;
+        canvas.drawLine(0, currY, width, currY, pl);
+        
+        for(int i = 0; i < 4; i++) {
+            if(i % 2 == 0) {
+                canvas.drawRect(0, currY, width, currY + height, p);
+                pw.setColor(getContext().getResources().getColor(R.color.word_color3));
+            } else {
+                canvas.drawRect(0, currY, width, currY + height, p2);
+                pw.setColor(getContext().getResources().getColor(R.color.word_color4));
+            }
+            calculateBase(arrayData[i + lineNumber], height);
+            canvas.drawText(arrayData[i + lineNumber], xbase, currY + ybase, pw);
+            currY += height;
+        }
+        pl.setColor(getContext().getResources().getColor(R.color.line_color));
+        canvas.drawLine(width, 0, width, getMeasuredHeight(), pl);
         super.onDraw(canvas);
+    }
+
+    private int xbase;
+    private int ybase;
+
+    private void calculateBase(String txt, int height) {
+        Paint.FontMetrics fm = pw.getFontMetrics();
+        float wordWidth = pw.measureText(txt);
+        xbase = (getMeasuredWidth() - (int)wordWidth) / 2;
+        ybase = (int)(height / 2 - fm.descent + (fm.bottom - fm.top) / 2);
     }
 
     @Override

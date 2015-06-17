@@ -6,12 +6,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:layout_width="80dp"
+        <LinearLayout
+            android:layout_width="55dp"
             android:layout_height="30dp"
             android:orientation="horizontal"
-            android:text="近100期"
-            android:background="#aaa"/>
+            android:background="#EDE1CA">
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/red_2x"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="100期"
+                android:textSize="12sp"
+                android:textColor="#E71616"
+                android:gravity="center_vertical"/>
+            <ImageView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#DAC5A5"/>
+        </LinearLayout>
+        
         <demo.alexan.com.view.ChartHeadView
             android:id="@+id/chart_head"
             android:layout_width="1050dp"
@@ -26,7 +47,7 @@
         android:orientation="horizontal">
         <demo.alexan.com.view.ChartLeftView
             android:id="@+id/chart_left_side"
-            android:layout_width="80dp"
+            android:layout_width="55dp"
             android:layout_height="3000dp" />
         <demo.alexan.com.view.ChartMainView
             android:id="@+id/chart_main"
@@ -40,11 +61,11 @@
         android:orientation="horizontal">
         <TextView
             android:gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
             android:orientation="horizontal"
             android:text="选号"
-            android:background="#aaa"/>
+            android:textSize="15sp"/>
         <LinearLayout
             android:orientation="horizontal"
             android:id="@+id/chart_bottom5"
@@ -57,11 +78,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
             android:text="已选"
-            android:gravity="center"
-            android:background="#aaa"/>
+            android:textSize="15sp"
+            android:gravity="center"/>
 
         <GridView
             android:id="@+id/chart_bottom6"

@@ -9,19 +9,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Scroller;
 
+import java.util.Random;
+
+import demo.alexan.com.myapplication.R;
+
 /**
  * Created by Alex on 2015/6/10.
  */
 public class ChartMainView extends View {
     
-    //private int minHeight;
-    //private int minWidth;
-    private int paperColor;
-    private Paint p;
+    private Paint p1;
     private Paint p2;
+    private Paint pCircle;
+    private Paint pw1;
+    private Paint pw2;
+    private Paint pLine;
     private Scroller mScroller;
     private DisplayMetrics dm;
     private String[][] arrayData;
+    private int[] awardIdx;
     
     private int lineNumber = 100;
     private int columnNumber = 35;
@@ -33,11 +39,16 @@ public class ChartMainView extends View {
     }
 
     private void generateData() {
+        Random r = new Random();
         arrayData = new String[4 + lineNumber][columnNumber];
         for(int i = 0; i < (4 + lineNumber); i++) {
             for(int j = 0; j < columnNumber; j++) {
-                arrayData[i][j] = "" + i + j;
+                arrayData[i][j] = "" + r.nextInt(columnNumber);
             }
+        }
+        awardIdx = new int[columnNumber];
+        for(int i = 0; i < columnNumber; i++) {
+            awardIdx[i] = r.nextInt(columnNumber);
         }
     }
     
@@ -58,19 +69,26 @@ public class ChartMainView extends View {
     
     private void init(Context ctx) {
         generateData();
-        
         dm = ctx.getResources().getDisplayMetrics();
-        //minHeight = (int)dm.density * 30 * 104;
-        //minWidth = (int)dm.density * 30 * 35;
-        paperColor = ctx.getResources().getColor(android.R.color.holo_red_dark);
-        p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(ctx.getResources().getColor(android.R.color.holo_blue_dark));
-        p.setStrokeJoin(Paint.Join.ROUND);
-        p.setStrokeCap(Paint.Cap.ROUND);
-        p.setStrokeWidth(3);
+        
+        p1 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        p1.setColor(ctx.getResources().getColor(R.color.line_color_shallow));
         p2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p2.setColor(ctx.getResources().getColor(android.R.color.holo_red_dark));
-        p2.setTextSize(50);
+        p2.setColor(ctx.getResources().getColor(R.color.line_color_dark));
+        
+        pw1 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pw1.setColor(ctx.getResources().getColor(R.color.word_color2));
+        pw1.setTextSize(40);
+
+        pw2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pw2.setColor(ctx.getResources().getColor(R.color.word_color_ball_white));
+        pw2.setTextSize(50);
+        
+        pCircle = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pCircle.setColor(ctx.getResources().getColor(R.color.bg_color_red));
+        
+        pLine = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pLine.setColor(ctx.getResources().getColor(R.color.line_color));
     }
     
     public void setScroller(Scroller scroller) {
@@ -82,13 +100,9 @@ public class ChartMainView extends View {
         int measuredWidth = getMeasureParam(widthMeasureSpec, 0);
         int measuredHeight = getMeasureParam(heightMeasureSpec, 1);
         setMeasuredDimension(measuredWidth, measuredHeight);
-        //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
     
     private int getMeasureParam(int measureSpec, int type) {
-        /*int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);*/
-        
         if(type == 0) {
             return (int)dm.density * 30 * columnNumber;
         } else {
@@ -97,7 +111,6 @@ public class ChartMainView extends View {
     }
     
     public void setMyScrollX(int x) {
-        //super.mScrollX;
         scrollTo(x, this.getScrollY());
     }
     
@@ -118,52 +131,56 @@ public class ChartMainView extends View {
         lineCount = frameHeight / squareSize + 2;
     }
     
-    private int myGetScrollX() {
-        if(getScrollX() + frameWidth > getMeasuredWidth()) {
-            return getMeasuredWidth() - frameWidth;
-        } else {
-            return getScrollX();
-        }
-    }
-    
-    private int myGetScrollY() {
-        if(getScrollY() + frameHeight > getMeasuredHeight()) {
-            scrollTo(getScrollX(), getMeasuredHeight() - frameHeight);
-            return getMeasuredHeight() - frameHeight;
-            
-        } else {
-            return getScrollY();
-        }
-    }
     
     @Override
     protected void onDraw(Canvas canvas) {
-        //canvas.clipRect(getScrollX(), getScrollY(), getScrollX() + 300, getScrollY() + 300 );
         int squareSize = 30 * (int)dm.density;
         int startx = getScrollX() / squareSize;
         int endx = startx + columnCount > columnNumber ? columnNumber : startx + columnCount;
         int startC = startx * squareSize;
 
-        Log.d("ondraw", "" + getMeasuredHeight() + ", " + getScrollY());
+        //Log.d("ondraw", "" + getMeasuredHeight() + ", " + getScrollY());
         int starty = getScrollY() / squareSize;
         int endy = starty + lineCount > (lineNumber + 4) ? (lineNumber + 4) : starty + lineCount;
         int startR = starty * squareSize;
         
         
-        int squarePad = 5;
         int currR = startR - squareSize;
         int currC;
         for(int i = starty; i < endy; i++) {
             currR += squareSize;
+            
+            if(i % 2 == 0) {
+                canvas.drawRect(startC, currR, endx * squareSize, currR + squareSize, p1);
+            } else {
+                canvas.drawRect(startC, currR, endx * squareSize, currR + squareSize, p2);
+            }
             currC = startC - squareSize;
             for(int j = startx; j < endx; j++) {
                 currC += squareSize;
-                canvas.drawRect(currC + squarePad, currR + squarePad, currC + squareSize - squarePad, currR + squareSize - squarePad, p);
-                canvas.drawText(arrayData[i][j], currC + squarePad, currR + squareSize - squarePad * 2, p2);
+                canvas.drawLine(currC + squareSize, currR, currC + squareSize, currR + squareSize, pLine);
+                if(awardIdx[j] == j) {
+                    canvas.drawCircle(currC + squareSize / 2, currR + squareSize / 2, (squareSize - 3 * (int)dm.density) / 2, pCircle);
+                    calculateBase("" + j, squareSize, pw2);
+                    canvas.drawText("" + j, currC + xbase, currR + ybase, pw2);
+                } else {
+                    calculateBase("" + j, squareSize, pw1);
+                    canvas.drawText("" + j, currC + xbase, currR + ybase, pw1);
+                }
             }
         }
         
         super.onDraw(canvas);
+    }
+
+    private int xbase;
+    private int ybase;
+
+    private void calculateBase(String txt, int size, Paint pw) {
+        Paint.FontMetrics fm = pw.getFontMetrics();
+        float wordWidth = pw.measureText(txt);
+        xbase = (size - (int)wordWidth) / 2;
+        ybase = (int)(size / 2 - fm.descent + (fm.bottom - fm.top) / 2);
     }
 
     @Override
