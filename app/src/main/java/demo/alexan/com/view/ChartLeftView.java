@@ -104,7 +104,7 @@ public class ChartLeftView extends View {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight() / arrayData.length;
         int currY = -height;
-        for(int i = 0; i < arrayData.length - 4; i++) {
+        for(int i = 0; i < arrayData.length; i++) {
             currY += height;
             if(i % 2 == 0) {
                 canvas.drawRect(0, currY, width, currY + height, p);    
@@ -112,23 +112,16 @@ public class ChartLeftView extends View {
                 canvas.drawRect(0, currY, width, currY + height, p2);
             }
             calculateBase(arrayData[i], height);
+            if(i < arrayData.length - 4) {
+                pw.setColor(getContext().getResources().getColor(R.color.word_color2));
+            } else if(i >= arrayData.length - 4 && i % 2 == 0) {
+                pw.setColor(getContext().getResources().getColor(R.color.word_color4));
+            } else if(i >= arrayData.length - 4 && i % 2 == 1) {
+                pw.setColor(getContext().getResources().getColor(R.color.word_color3));
+            }
             canvas.drawText(arrayData[i], xbase, currY + ybase, pw);
         }
-        currY += height;
-        canvas.drawLine(0, currY, width, currY, pl);
-        
-        for(int i = 0; i < 4; i++) {
-            if(i % 2 == 0) {
-                canvas.drawRect(0, currY, width, currY + height, p);
-                pw.setColor(getContext().getResources().getColor(R.color.word_color3));
-            } else {
-                canvas.drawRect(0, currY, width, currY + height, p2);
-                pw.setColor(getContext().getResources().getColor(R.color.word_color4));
-            }
-            calculateBase(arrayData[i + lineNumber], height);
-            canvas.drawText(arrayData[i + lineNumber], xbase, currY + ybase, pw);
-            currY += height;
-        }
+        canvas.drawLine(0, height * (arrayData.length - 4), width, height * (arrayData.length - 4), pl);
         pl.setColor(getContext().getResources().getColor(R.color.line_color));
         canvas.drawLine(width, 0, width, getMeasuredHeight(), pl);
         super.onDraw(canvas);

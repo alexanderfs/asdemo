@@ -135,7 +135,7 @@ public class AllInChartView extends LinearLayout {
         cb6v = (GridView) findViewById(R.id.chart_bottom6);
         initGridView();
         
-        headWidth = (int)(dm.widthPixels - 80 * dm.density);
+        headWidth = (int)(dm.widthPixels - 55 * dm.density);
         //sideHeight = (int)dm.density * cmv.getHeight();
 
         mScrollerHead = new Scroller(getContext(), new DecelerateInterpolator(2.0f));
@@ -160,9 +160,6 @@ public class AllInChartView extends LinearLayout {
     private ArrayAdapter aa;
     
     private void initGridView() {
-        //cb6v.setHorizontalSpacing((int)dm.density);
-        //cb6v.setVerticalSpacing((int) dm.density);
-        //cb6v.setNumColumns((dm.widthPixels - (int) dm.density * 80) / 30);
         aa = new ArrayAdapter(getContext(), R.layout.gridview_item, choosenData);
         cb6v.setAdapter(aa);
         Log.d("initgridview", "init");
@@ -265,6 +262,7 @@ public class AllInChartView extends LinearLayout {
                 int newHeadX = chv.getScrollX() + preX - currX;
                 int newLeftY = clv.getScrollY() + preY - currY;
                 boolean xMove = newHeadX > 0 && newHeadX < (chv.getWidth() - headWidth);
+                //Log.d("move", "chv width: " + chv.getWidth() + ", scroll: " + chv.getScrollX() + ", head width: " + headWidth);
                 //todo: 需要在已选号码那列高度改变时重新计算这里的实际高度
                 boolean yMove = newLeftY > 0 && newLeftY < (clv.getHeight() - sideHeight);
                 if(xMove) {

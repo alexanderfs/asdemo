@@ -46,8 +46,8 @@ public class ChartMainView extends View {
                 arrayData[i][j] = "" + r.nextInt(columnNumber);
             }
         }
-        awardIdx = new int[columnNumber];
-        for(int i = 0; i < columnNumber; i++) {
+        awardIdx = new int[4 + lineNumber];
+        for(int i = 0; i < (4 + lineNumber); i++) {
             awardIdx[i] = r.nextInt(columnNumber);
         }
     }
@@ -149,26 +149,42 @@ public class ChartMainView extends View {
         int currC;
         for(int i = starty; i < endy; i++) {
             currR += squareSize;
+            if(i == lineNumber) {
+                pLine.setColor(getContext().getResources().getColor(R.color.line_color_brown));
+                canvas.drawLine(getScrollX(), currR, getScrollX() + frameWidth, currR, pLine);
+                pLine.setColor(getContext().getResources().getColor(R.color.line_color));
+                
+            }
             
             if(i % 2 == 0) {
-                canvas.drawRect(startC, currR, endx * squareSize, currR + squareSize, p1);
+                canvas.drawRect(getScrollX(), currR, getScrollX() + frameWidth, currR + squareSize, p1);
             } else {
-                canvas.drawRect(startC, currR, endx * squareSize, currR + squareSize, p2);
+                canvas.drawRect(getScrollX(), currR, getScrollX() + frameWidth, currR + squareSize, p2);
             }
             currC = startC - squareSize;
             for(int j = startx; j < endx; j++) {
                 currC += squareSize;
                 canvas.drawLine(currC + squareSize, currR, currC + squareSize, currR + squareSize, pLine);
-                if(awardIdx[j] == j) {
+                if(i < lineNumber && awardIdx[i] == j) {
                     canvas.drawCircle(currC + squareSize / 2, currR + squareSize / 2, (squareSize - 3 * (int)dm.density) / 2, pCircle);
                     calculateBase("" + j, squareSize, pw2);
                     canvas.drawText("" + j, currC + xbase, currR + ybase, pw2);
                 } else {
-                    calculateBase("" + j, squareSize, pw1);
-                    canvas.drawText("" + j, currC + xbase, currR + ybase, pw1);
+                    if(i >= lineNumber && i % 2 == 0) {
+                        pw1.setColor(getContext().getResources().getColor(R.color.word_color4));
+                        calculateBase(arrayData[i][j], squareSize, pw1);
+                        canvas.drawText(arrayData[i][j], currC + xbase, currR + ybase, pw1);
+                    } else if(i >= lineNumber && i % 2 == 1) {
+                        pw1.setColor(getContext().getResources().getColor(R.color.word_color3));
+                        calculateBase(arrayData[i][j], squareSize, pw1);
+                        canvas.drawText(arrayData[i][j], currC + xbase, currR + ybase, pw1);    
+                    }
+                    
                 }
             }
         }
+        
+        
         
         super.onDraw(canvas);
     }
